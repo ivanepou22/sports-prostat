@@ -1,0 +1,25 @@
+.users-card {
+    background: #0a7ae9 none repeat scroll 0 0 !important;
+    color: white !important;
+  }
+  .users-card .category {
+    color: white !important;
+  }
+  .users {
+    color: white !important;
+  }
+
+  .inbox-card {
+      background-color: rgb(65, 58, 58) !important;
+    color: white !important;
+  }
+  .inbox-card .category {
+    color: white !important;
+  }
+  .inbox {
+    color: white !important;
+  }
+
+  .title-container {
+    width: 100% !important;
+  }

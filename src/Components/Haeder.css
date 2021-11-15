@@ -1,0 +1,40 @@
+.admin-header {
+    position: fixed !important;
+    top: 0;
+}
+
+.admin-breads {
+    margin-top: 6rem !important;
+}
+
+.row-add {
+    padding: 1rem 3rem !important;
+    background-color: white !important;
+    text-align: right !important;
+}
+
+.nav-social {
+    display: flex !important;
+}
+
+.user-login {
+    display: flex !important;
+}
+
+.right-menu {
+    margin-right: -6rem !important;
+}
+
+.middle-menu {
+    border-right: 1px solid #e6e6e6 !important;
+}
+.profile-link .profile-picture {
+    border-radius: 50% !important;
+}
+
+.system-title p {
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    margin-left: -5rem !important;
+}
