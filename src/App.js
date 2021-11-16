@@ -7,6 +7,9 @@ import { useStateValue } from './Context/StateProvider';
 import { auth } from './firebase';
 import { useEffect } from 'react';
 import SportTypes from './Pages/SportTypes';
+import CreateSportType from './Pages/CreateSportType';
+import Positions from './Pages/Positions';
+import InjuryTypes from './Pages/InjuryTypes';
 
 function App() {
   const [{user}, dispatch] = useStateValue();
@@ -53,6 +56,18 @@ function App() {
           </Route>
           <Route exact path="/register">
             <Register />
+          </Route>
+          <Route exact path="/createsporttype">
+            <Header />
+            <CreateSportType />
+          </Route>
+          <Route exact path="/positions">
+            <Header />
+            <Positions />
+          </Route>
+          <Route exact path="/injurytypes">
+            <Header />
+            <InjuryTypes />
           </Route>
         </Switch>
       </Router>

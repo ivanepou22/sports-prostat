@@ -1,0 +1,57 @@
+.register-form {
+    padding: 20px !important;
+    border: 1px solid #e6e6e6 !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+    -webkit-box-shadow: 0 5px 40px #00000008 !important;
+    box-shadow: 0 5px 40px #00000008 !important;
+}
+.register-form .title h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #081828;
+    margin-bottom: 5px;
+}
+h3 {
+    font-size: 30px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin: 0;
+    color: #081828;
+}
+
+.title p {
+    margin: 1rem 0 !important;
+}
+.create-prod {
+    margin-top: -4rem !important;
+}
+.imageupload__progress {
+    width: 100%;
+    height: 15px;
+}
+
+.category-options {
+    color: #000 !important;
+}
+
+.row-add {
+    padding: 1rem 3rem !important;
+    margin: 1rem 0 !important;
+    background-color: white !important;
+    text-align: right !important;
+}
+
+.icon-list-prod {
+    padding-right: 10px !important;
+}
+.row-admd-cat {
+    margin-bottom: 1rem;
+    margin-top: -4rem;
+}
+
+.alert {
+    margin: 1.5rem 0 !important;
+
+}

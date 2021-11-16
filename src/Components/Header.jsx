@@ -33,7 +33,7 @@ const Header = () => {
                                                 {/* Left Menus */}
                                                 <div className="logo">
                                                     <Link to="/" className="system-title">
-                                                        <p>Sports Prostat Management System</p>
+                                                        <p>Sports Prostat System</p>
                                                     </Link>
                                                 </div>
                                             </div>
@@ -125,8 +125,8 @@ const Header = () => {
                                                                 data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
                                                                 aria-expanded="false" aria-label="Toggle navigation">Administration</Link>
                                                             <ul className="sub-menu collapse" id="submenu-1-2">
-                                                                <li className="nav-item"><Link to="/">Positions</Link></li>
-                                                                <li className="nav-item"><Link to="/">Injury Types</Link></li>
+                                                                <li className="nav-item"><Link to="/positions">Positions</Link></li>
+                                                                <li className="nav-item"><Link to="/injurytypes">Injury Types</Link></li>
                                                                 <li className="nav-item"><Link to="/sporttype">Sport Type</Link></li>
                                                             </ul>
                                                         </li>
