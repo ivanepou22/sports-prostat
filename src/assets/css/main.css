@@ -1524,7 +1524,7 @@ top: -1px;
   white-space: nowrap;
 }
 
-.header .topbar .top-end .user-login li:last-child a {
+.header .topbar .top-end .user-login li:last-child .profile-link {
   border: 1px solid rgb(168, 83, 3);;
   background: rgb(168, 83, 3);
 }

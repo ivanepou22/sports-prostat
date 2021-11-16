@@ -38,3 +38,94 @@
     color: #fff !important;
     margin-left: -5rem !important;
 }
+
+.nav__listitem {
+    list-style: none;
+    position: relative;
+    padding: 0 .5rem;
+    cursor: pointer;
+    z-index: 15000;
+  }
+
+  .nav__listitem:hover ul, .nav__listitem:focus ul {
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav__listitemdrop {
+    position: absolute;
+    top: 3.1rem;
+    left: -10rem;
+    box-shadow: 0 0 2px #1c1c1d;
+    background-color: white;
+    border-radius: 0.2rem;
+    width: 14.5rem;
+    padding: .5rem 1rem;
+    display: flex;
+    gap: .3rem;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease-in-out;
+  }
+  .nav__listitemdrop li {
+    list-style: none;
+    padding: .5rem 4rem;
+    width: 100%;
+    font-size: .7rem;
+    transition: background-color 200ms ease-in-out;
+  }
+  .nav__listitemdrop li .li-icon {
+      font-size: 1.2rem;
+      margin-right: .3rem;
+  }
+
+  .nav__listitemdrop p:hover {
+    background-color: #fff !important;
+  }
+
+  .nav__listitemdrop li:hover {
+    background-color: #fff !important;
+  }
+
+  .nav__listitemdrop p {
+      color: rgb(85, 82, 82);
+  }
+
+  .nav__listitemdrop p:hover {
+    color: rgb(73, 73, 247) !important;
+  }
+
+  .user-logout p {
+    color: white !important;
+  }
+  .user-logout {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    background-color: rgb(73, 73, 247);
+    padding: .2rem .5rem !important;
+    cursor: pointer;
+    color: white !important;
+    border-radius: 2px;
+  }
+
+  .user-logout:hover {
+    background-color: rgb(14, 14, 216);
+    color: white !important;
+  }
+
+  .user-logout p:hover {
+    background-color: rgb(14, 14, 216) !important;
+    color: white !important;
+  }
+
+  .profile-name, .profile-email, .profile-profile {
+      display: flex !important;
+      gap: .6rem !important;
+      align-items: center !important;
+  }
+
+  .profile-profile .user-profile {
+      display: flex !important;
+      align-items: center !important;
+  }

@@ -34,7 +34,7 @@ function App() {
       unsubscribe();
     };
 
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="app">
