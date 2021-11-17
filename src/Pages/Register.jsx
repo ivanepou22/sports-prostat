@@ -104,12 +104,6 @@ const Register = () => {
                                             <input className="form-control" type="file" id="reg-ln" onChange={handleChange} />
                                         </div>
                                     </div>
-                                    {/* <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <input placeholder="Phone Number" value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)} className="form-control" type="text" id="reg-phone" required="" />
-                                        </div>
-                                    </div> */}
-
                                     <div className="col-sm-6">
                                         <div className="form-group">
                                             <input placeholder="Password" value={password} onChange={event => setPassword(event.target.value)} className="form-control" type="password" id="reg-pass" required />

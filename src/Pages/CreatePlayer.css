@@ -1,0 +1,33 @@
+.left-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 0rem 0rem 1rem 0rem;
+}
+
+.right-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 0rem 0rem 1rem 0;
+
+}
+
+.heading-infor p{
+    font-size: 14px !important;
+    margin: 1rem 0;
+    color: rgb(79, 79, 245);
+}
+
+.player-create {
+    margin-top: -5rem !important;
+}
+
+.player-create .title {
+    padding: .5rem 0;
+}

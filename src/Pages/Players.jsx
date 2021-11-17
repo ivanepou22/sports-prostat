@@ -9,13 +9,17 @@ import './Players';
 const Players = () => {
     const [players, setPlayers] = useState([]);
     const [{ user }] = useStateValue();
+
+    //get table columns
     const columns = [
+        { title: 'No.', field: 'index' },
         { title: 'Full_Name', field: 'full_name' },
         { title: 'Email', field: 'email' },
         { title: 'Phone', field: 'phone' },
         { title: 'NIN', field: 'nin' },
         { title: 'Gender', field: 'gender' },
         { title: 'DOB', field: 'dob' },
+        { title: 'Age', field: 'age' },
         { title: 'Height', field: 'height' },
         { title: 'Weight', field: 'weight' },
         { title: 'College', field: 'school' },
@@ -29,15 +33,30 @@ const Players = () => {
 
     // select players from firebase
     useEffect(() => {
+
+        //calculate age from dob
+        const calculateAge = (dob) => {
+            var today = new Date();
+            var birthDate = new Date(dob);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age = age - 1;
+            }
+            return age;
+        }
+
         db.collection('player').onSnapshot(snapshot => {
-            setPlayers(snapshot.docs.map(doc => ({
+            setPlayers(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 full_name: doc.data().first_name + ' ' + doc.data().last_name,
                 email: doc.data().email,
                 phone: doc.data().phone,
                 nin: doc.data().nin,
                 gender: doc.data().gender,
                 dob: doc.data().dob?.toDate().toLocaleDateString(),
+                age: calculateAge(doc.data().dob?.toDate().toLocaleDateString()),
                 height: doc.data().height,
                 weight: doc.data().weight,
                 school: doc.data().school,
@@ -56,6 +75,7 @@ const Players = () => {
         })
     }, [])
 
+    //Material table options
     const options = {
         actionsColumnIndex: -1,
         padding: "dense",
@@ -67,7 +87,7 @@ const Players = () => {
         }
     }
 
-    console.log(players)
+
     return (
         <>
             {
