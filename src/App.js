@@ -10,6 +10,7 @@ import SportTypes from './Pages/SportTypes';
 import CreateSportType from './Pages/CreateSportType';
 import Positions from './Pages/Positions';
 import InjuryTypes from './Pages/InjuryTypes';
+import Players from './Pages/Players';
 
 function App() {
   const [{user}, dispatch] = useStateValue();
@@ -68,6 +69,10 @@ function App() {
           <Route exact path="/injurytypes">
             <Header />
             <InjuryTypes />
+          </Route>
+          <Route exact path="/players">
+            <Header />
+            <Players />
           </Route>
         </Switch>
       </Router>

@@ -104,14 +104,11 @@ const InjuryTypes = () => {
                                                 options={{
                                                     actionsColumnIndex: -1,
                                                     pageSize: 5,
+                                                    padding: "dense",
                                                     pageSizeOptions: [5, 10, 20, 30],
                                                     headerStyle: {
                                                         backgroundColor: '#01579b',
                                                         color: '#FFF'
-                                                    },
-                                                    rowStyle: {
-                                                        backgroundColor: '#EEE',
-                                                        padding: '-20px 0 !important'
                                                     }
                                                 }}
                                             />
