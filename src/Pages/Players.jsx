@@ -10,6 +10,14 @@ const Players = () => {
     const [players, setPlayers] = useState([]);
     const [{ user }] = useStateValue();
 
+    //convert string to a date
+    const convertDate = (date) => {
+        let newDate = new Date(date);
+        let day = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        return `${month}/${day}/${year}`;
+    }
     //get table columns
     const columns = [
         { title: 'No.', field: 'index' },
@@ -29,6 +37,8 @@ const Players = () => {
         { title: 'Team', field: 'team' },
         { title: 'Sport', field: 'type_of_sport' },
         { title: 'Status', field: 'status' },
+        { title: 'Jersey', field: 'jersey' },
+        { title: 'Action', field: 'action' },
     ]
 
     // select players from firebase
@@ -55,21 +65,22 @@ const Players = () => {
                 phone: doc.data().phone,
                 nin: doc.data().nin,
                 gender: doc.data().gender,
-                dob: doc.data().dob?.toDate().toLocaleDateString(),
-                age: calculateAge(doc.data().dob?.toDate().toLocaleDateString()),
+                dob: doc.data().dob,
+                age: calculateAge(convertDate(doc.data().dob)),
                 height: doc.data().height,
                 weight: doc.data().weight,
                 school: doc.data().school,
-                entry_date: doc.data().entry_date?.toDate().toLocaleDateString(),
+                entry_date: doc.data().entry_date,
                 age_group: doc.data().age_group,
-                position: doc.data().position,
-                team: doc.data().team,
-                type_of_sport: doc.data().type_of_sport,
+                position: filter(doc.data().position, 'position'),
+                team: filter(doc.data().team, 'team'),
+                type_of_sport: filter(doc.data().type_of_sport, 'sport'),
                 status: doc.data().status,
                 father: doc.data().father,
                 mother: doc.data().mother,
                 nextofkin: doc.data().nextofkin,
                 username: doc.data().username,
+                jersey: doc.data().jersey,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
             })))
         })
@@ -87,6 +98,49 @@ const Players = () => {
         }
     }
 
+    //select positions from firebase
+    const [positions, setPositions] = useState([]);
+    useEffect(() => {
+        db.collection('positions').onSnapshot(snapshot => {
+            setPositions(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
+    }, [])
+
+    //select teams from firebase
+    const [teams, setTeams] = useState([]);
+    useEffect(() => {
+        db.collection('teams').onSnapshot(snapshot => {
+            setTeams(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
+    }, [])
+
+    //select sports from firebase
+    const [sports, setSports] = useState([]);
+    useEffect(() => {
+        db.collection('sports-type').onSnapshot(snapshot => {
+            setSports(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
+    }, [])
+
+    //filter function
+    const filter = (id, filterValue) => {
+        if (filterValue === 'position') {
+            return positions.filter(position => position.id === id).map(position => position.code);
+        } else if (filterValue === 'team') {
+            return teams.filter(team => team.id === id).map(team => team.name);
+        } else if (filterValue === 'sport') {
+            return sports.filter(sport => sport.id === id).map(sport => sport.code);
+        }
+    }
 
     return (
         <>

@@ -5,6 +5,7 @@ import './Haeder.css'
 import Logo from '../assets/images/sportLogo.png';
 import { useStateValue } from '../Context/StateProvider';
 import { auth } from '../firebase';
+import Avatar from 'react-avatar';
 
 const Header = () => {
     const [{ user }] = useStateValue();
@@ -62,7 +63,15 @@ const Header = () => {
                                                         </li>
                                                         <li className="nav__listitem">
                                                             <Link to="/" className="profile-link">
-                                                                <img src={user?.photoURL} className="profile-picture" alt="logo" />
+                                                                {
+                                                                    user.photoURL === undefined ? (
+                                                                        <img src={user.photoURL} alt="user" className="profile-picture" />
+                                                                    ) : (
+                                                                        <Avatar name={user.displayName} size="36" className="profile-avatar" round={true} />
+                                                                    )
+
+                                                                }
+
                                                             </Link>
                                                             <ul className="nav__listitemdrop">
                                                                 <div className="profile-name">
@@ -102,7 +111,7 @@ const Header = () => {
                                             <div className="header-logo">
                                                 {/* Company name */}
                                                 <div className="logo">
-                                                    <Link to="/"><img src={Logo} alt="Logo" /></Link>
+                                                    <Link to="/"><img src={Logo} alt="PP" /></Link>
                                                 </div>
                                             </div>
                                             {/* <!-- End Mega Category Menu --> */}
@@ -150,7 +159,7 @@ const Header = () => {
                                                                 data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
                                                                 aria-expanded="false" aria-label="Toggle navigation">Match Management</Link>
                                                             <ul className="sub-menu collapse" id="submenu-1-3">
-                                                                <li className="nav-item"><Link to="/">Players</Link></li>
+                                                                <li className="nav-item"><Link to="/players">Players</Link></li>
                                                                 <li className="nav-item"><Link to="/">Goals</Link></li>
                                                                 <li className="nav-item"><Link to="/">Assists</Link></li>
                                                                 <li className="nav-item"><Link to="/">Freekicks</Link></li>
@@ -162,7 +171,7 @@ const Header = () => {
                                                                 data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
                                                                 aria-expanded="false" aria-label="Toggle navigation">Training Management</Link>
                                                             <ul className="sub-menu collapse" id="submenu-1-3">
-                                                                <li className="nav-item"><Link to="/">Players</Link></li>
+                                                                <li className="nav-item"><Link to="/players">Players</Link></li>
                                                                 <li className="nav-item"><Link to="/">Goals</Link></li>
                                                                 <li className="nav-item"><Link to="/">Assists</Link></li>
                                                                 <li className="nav-item"><Link to="/">Freekicks</Link></li>

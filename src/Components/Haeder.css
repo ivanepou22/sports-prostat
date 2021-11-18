@@ -129,3 +129,11 @@
       display: flex !important;
       align-items: center !important;
   }
+.profile-link {
+  position: relative;
+}
+  .profile-avatar {
+    position: absolute;
+    margin-left: -.55rem;
+    margin-top: 0rem;
+  }

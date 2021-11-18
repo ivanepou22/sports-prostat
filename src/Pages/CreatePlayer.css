@@ -31,3 +31,9 @@
 .player-create .title {
     padding: .5rem 0;
 }
+
+.right-float .button .btn {
+    width: max-content;
+    float: right;
+    margin-right: 1rem;
+}
