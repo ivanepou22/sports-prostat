@@ -34,7 +34,7 @@ const Positions = () => {
     }
 
 
-    //TODO: select posiion from firebase
+    //DONE: select posiion from firebase
     const [positions, setPositions] = React.useState([]);
     React.useEffect(() => {
         db.collection('positions').orderBy('timestamp', 'desc').onSnapshot(snapshot => {

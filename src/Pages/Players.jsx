@@ -56,6 +56,7 @@ const Players = () => {
             return age;
         }
 
+        //get players from firebase
         db.collection('player').onSnapshot(snapshot => {
             setPlayers(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
@@ -72,9 +73,9 @@ const Players = () => {
                 school: doc.data().school,
                 entry_date: doc.data().entry_date,
                 age_group: doc.data().age_group,
-                position: filter(doc.data().position, 'position'),
-                team: filter(doc.data().team, 'team'),
-                type_of_sport: filter(doc.data().type_of_sport, 'sport'),
+                position: positions.filter(position => position.id === doc.data().position).map(position => position.code),
+                team: teams.filter(team => team.id === doc.data().team).map(team => team.name),
+                type_of_sport: sports.filter(sport => sport.id === doc.data().type_of_sport).map(sport => sport.code),
                 status: doc.data().status,
                 father: doc.data().father,
                 mother: doc.data().mother,
@@ -107,7 +108,7 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [])
+    }, [players])
 
     //select teams from firebase
     const [teams, setTeams] = useState([]);
@@ -118,7 +119,7 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [])
+    }, [players])
 
     //select sports from firebase
     const [sports, setSports] = useState([]);
@@ -129,18 +130,8 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [])
+    }, [players])
 
-    //filter function
-    const filter = (id, filterValue) => {
-        if (filterValue === 'position') {
-            return positions.filter(position => position.id === id).map(position => position.code);
-        } else if (filterValue === 'team') {
-            return teams.filter(team => team.id === id).map(team => team.name);
-        } else if (filterValue === 'sport') {
-            return sports.filter(sport => sport.id === id).map(sport => sport.code);
-        }
-    }
 
     return (
         <>
