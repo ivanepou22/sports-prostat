@@ -108,7 +108,7 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [players])
+    }, [])
 
     //select teams from firebase
     const [teams, setTeams] = useState([]);
@@ -119,7 +119,7 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [players])
+    }, [])
 
     //select sports from firebase
     const [sports, setSports] = useState([]);
@@ -130,7 +130,7 @@ const Players = () => {
                 ...doc.data()
             })))
         })
-    }, [players])
+    }, [])
 
 
     return (

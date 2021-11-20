@@ -32,6 +32,8 @@ const Teams = () => {
         })
     }, [])
 
+    console.log(teams)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name === '') {
@@ -40,8 +42,6 @@ const Teams = () => {
             setError('Please enter the team location');
         } else if (coach === '') {
             setError('Please enter the team coach');
-        } else if (owner === '') {
-            setError('Please enter the team owner');
         } else {
             setError('');
             db.collection('teams').add({

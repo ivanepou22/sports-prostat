@@ -1,0 +1,7 @@
+.season-table {
+    background-color: white !important;
+    width: 100% !important;
+}
+.season-table tr td  .btn{
+    padding: 3px 5px !important;
+}
