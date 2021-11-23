@@ -15,6 +15,7 @@ import CreatePlayer from './Pages/CreatePlayer';
 import Teams from './Pages/Teams';
 import Leagues from './Pages/Leagues';
 import LeagueSeasons from './Pages/LeagueSeasons';
+import Stadiums from './Pages/Stadiums';
 
 function App() {
   const [{user}, dispatch] = useStateValue();
@@ -93,6 +94,10 @@ function App() {
           <Route exact path="/leagues">
             <Header />
             <Leagues />
+          </Route>
+          <Route exact path="/stadiums">
+            <Header />
+            <Stadiums />
           </Route>
         </Switch>
       </Router>

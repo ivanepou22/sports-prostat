@@ -140,6 +140,8 @@ const Header = () => {
                                                                 <li className="nav-item"><Link to="/teams">Teams</Link></li>
                                                                 <li className="nav-item"><Link to="/leagues">Leagues</Link></li>
                                                                 <li className="nav-item"><Link to="/seasons">Seasons</Link></li>
+                                                                <li className="nav-item"><Link to="/players">Players</Link></li>
+                                                                <li className="nav-item"><Link to="/stadiums">Stadiums</Link></li>
                                                             </ul>
                                                         </li>
                                                         <li className="nav-item">

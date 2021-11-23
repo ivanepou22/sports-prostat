@@ -14,6 +14,8 @@ const Players = () => {
     const [sports, setSports] = useState([]);
     const [positions, setPositions] = useState([]);
     const [teams, setTeams] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     //convert string to a date
     const convertDate = (date) => {
@@ -66,6 +68,7 @@ const Players = () => {
     }
     // select players from firebase
     useEffect(() => {
+        setLoading(true);
         //calculate age from dob
         const calculateAge = (dob) => {
             var today = new Date();
@@ -130,7 +133,11 @@ const Players = () => {
                 jersey: doc.data().jersey,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
             })))
-        })
+            setLoading(false);
+        }, error => {
+            setError(error.message);
+            setLoading(false);
+        });
     }, [positions, teams, sports])
 
     //Material table options
@@ -151,7 +158,24 @@ const Players = () => {
                 user ? (
                     <>
                         <Breadcrumb page={'Players'} pagename={'Players'} />
-                        <TableData data={players} columns={columns} title={'Players'} options={options} pageName={'Add Player'} linkPath={'createplayer'} />
+                        {
+                            error !== '' ? (
+                                <div className="alert alert-danger">
+                                    {error}
+                                </div>
+                            ) : ('')
+                        }
+                        {
+                            loading ? (
+                                <div className="d-flex justify-content-center error-container">
+                                    <div className="spinner-border text-primary" role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <TableData data={players} columns={columns} title={'Players'} options={options} pageName={'Add Player'} linkPath={'createplayer'} />
+                            )
+                        }
                     </>
                 ) : (
                     <Login />
