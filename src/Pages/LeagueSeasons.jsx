@@ -139,7 +139,7 @@ const LeagueSeasons = () => {
             {
                 title: 'Action', field: 'action', render: rowData => (
                     <div>
-                        <button className="btn btn-primary" onClick={() => {
+                        <button className="btn btn-danger" onClick={() => {
                             deleteSeason(rowData.id)
                         }}><RiChatDeleteLine /></button>
                         <button className="btn btn-primary" onClick={() => {

@@ -1,6 +1,9 @@
 import MaterialTable from 'material-table';
 import React, { useEffect, useState } from 'react';
+import { FiEdit } from 'react-icons/fi';
+import { RiChatDeleteLine } from 'react-icons/ri';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import Breadcrumb from '../Components/Breadcrumb';
 import { useStateValue } from '../Context/StateProvider';
 import { db } from '../firebase';
@@ -31,8 +34,6 @@ const Teams = () => {
             })))
         })
     }, [])
-
-    console.log(teams)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -154,12 +155,10 @@ const Teams = () => {
                                                     {
                                                         title: 'Action', field: 'action', render: rowData => (
                                                             <div>
-                                                                <button className="btn btn-primary" onClick={() => {
+                                                                <button className="btn btn-danger" onClick={() => {
                                                                     handleDelete(rowData.id)
-                                                                }}>Delete</button>
-                                                                {/* <button className="btn btn-primary" onClick={() => {
-                                                                    window.location.href = `/teams/${rowData.id}`
-                                                                }}>View</button> */}
+                                                                }}><RiChatDeleteLine /></button>
+                                                                <Link to={`/edit-team/${rowData.id}`} className="btn btn-primary"><FiEdit /></Link>
                                                             </div>
 
                                                         )

@@ -159,6 +159,7 @@ const Header = () => {
                                                                 data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent"
                                                                 aria-expanded="false" aria-label="Toggle navigation">Match Management</Link>
                                                             <ul className="sub-menu collapse" id="submenu-1-3">
+                                                                <li className="nav-item"><Link to="/">Matches</Link></li>
                                                                 <li className="nav-item"><Link to="/players">Players</Link></li>
                                                                 <li className="nav-item"><Link to="/">Goals</Link></li>
                                                                 <li className="nav-item"><Link to="/">Assists</Link></li>

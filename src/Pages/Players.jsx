@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { FiEdit } from 'react-icons/fi';
+import { RiChatDeleteLine } from 'react-icons/ri';
 import Breadcrumb from '../Components/Breadcrumb';
 import TableData from '../Components/TableData';
 import { useStateValue } from '../Context/StateProvider';
@@ -9,6 +11,9 @@ import './Players';
 const Players = () => {
     const [players, setPlayers] = useState([]);
     const [{ user }] = useStateValue();
+    const [sports, setSports] = useState([]);
+    const [positions, setPositions] = useState([]);
+    const [teams, setTeams] = useState([]);
 
     //convert string to a date
     const convertDate = (date) => {
@@ -38,12 +43,29 @@ const Players = () => {
         { title: 'Sport', field: 'type_of_sport' },
         { title: 'Status', field: 'status' },
         { title: 'Jersey', field: 'jersey' },
-        { title: 'Action', field: 'action' },
+        {
+            title: 'Actions__', field: 'action', render: rowData => (
+                <div>
+                    <button className="btn btn-danger" onClick={() => deletePlayer(rowData.id)}><RiChatDeleteLine /></button>
+                    <button className="btn btn-primary" onClick={() => editPlayer(rowData.id)}><FiEdit /></button>
+                </div>
+            )
+        },
     ]
 
+    //delete player
+    const deletePlayer = (id) => {
+        if (window.confirm('Are you sure you wish to delete this player?')) {
+            db.collection('players').doc(id).delete();
+        }
+    }
+
+    //edit player
+    const editPlayer = (id) => {
+        console.log(id);
+    }
     // select players from firebase
     useEffect(() => {
-
         //calculate age from dob
         const calculateAge = (dob) => {
             var today = new Date();
@@ -55,6 +77,30 @@ const Players = () => {
             }
             return age;
         }
+
+        //get teams from firebase
+        db.collection('teams').onSnapshot(snapshot => {
+            setTeams(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
+
+        //get positions from firebase
+        db.collection('positions').onSnapshot(snapshot => {
+            setPositions(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
+
+        //get sports from firebase
+        db.collection('sports-type').onSnapshot(snapshot => {
+            setSports(snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+            })))
+        })
 
         //get players from firebase
         db.collection('player').onSnapshot(snapshot => {
@@ -85,7 +131,7 @@ const Players = () => {
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
             })))
         })
-    }, [])
+    }, [positions, teams, sports])
 
     //Material table options
     const options = {
@@ -98,40 +144,6 @@ const Players = () => {
             color: '#FFF'
         }
     }
-
-    //select positions from firebase
-    const [positions, setPositions] = useState([]);
-    useEffect(() => {
-        db.collection('positions').onSnapshot(snapshot => {
-            setPositions(snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })))
-        })
-    }, [])
-
-    //select teams from firebase
-    const [teams, setTeams] = useState([]);
-    useEffect(() => {
-        db.collection('teams').onSnapshot(snapshot => {
-            setTeams(snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })))
-        })
-    }, [])
-
-    //select sports from firebase
-    const [sports, setSports] = useState([]);
-    useEffect(() => {
-        db.collection('sports-type').onSnapshot(snapshot => {
-            setSports(snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-            })))
-        })
-    }, [])
-
 
     return (
         <>

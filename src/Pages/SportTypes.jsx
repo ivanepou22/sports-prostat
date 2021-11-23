@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { FiEdit } from 'react-icons/fi';
+import { RiChatDeleteLine } from 'react-icons/ri';
 import Breadcrumb from '../Components/Breadcrumb';
 import TableData from '../Components/TableData';
 import { useStateValue } from '../Context/StateProvider';
@@ -27,8 +29,23 @@ const SportTypes = () => {
         { title: 'Position Code', field: 'code' },
         { title: 'Description', field: 'description' },
         { title: 'Created By', field: 'username' },
-        { title: 'Created On', field: 'timestamp' }
-    ];
+        { title: 'Created On', field: 'timestamp' },
+        {
+            title: 'Action', field: 'action', render: rowData => (
+                <div className="action-buttons">
+                    <button className="btn btn-danger btn-sm" onClick={() => {
+                        if (window.confirm('Are you sure you wish to delete this Sport type?')) {
+                            db.collection('sports-type').doc(rowData.id).delete();
+                        }
+                    }}><RiChatDeleteLine /></button>
+                    <button className="btn btn-primary btn-sm" onClick={() => {
+                        console.log(rowData.id)
+                    }}><FiEdit /></button>
+                </div>
+            )
+        }
+    ]
+
 
     const options = {
         actionsColumnIndex: -1,

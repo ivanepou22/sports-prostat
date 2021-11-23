@@ -6,6 +6,8 @@ import './Positions.css';
 import firebase from "firebase";
 import { useStateValue } from '../Context/StateProvider';
 import MaterialTable from 'material-table';
+import { RiChatDeleteLine } from 'react-icons/ri';
+import { FiEdit } from 'react-icons/fi';
 
 const Positions = () => {
     const [code, setCode] = React.useState('');
@@ -47,6 +49,31 @@ const Positions = () => {
             })))
         })
     }, [])
+
+    const columns = [
+        { title: 'Position Code', field: 'code' },
+        { title: 'Description', field: 'description' },
+        { title: 'Created By', field: 'username' },
+        { title: 'Created On', field: 'timestamp' },
+        {
+            title: 'Action', field: 'action', render: rowData => (
+                <>
+                    <button className="btn btn-danger" onClick={() => {
+                        if (window.confirm('Are you sure you wish to delete this position?')) {
+                            db.collection('positions').doc(rowData.id).delete();
+                        }
+                    }}><RiChatDeleteLine /></button>
+                    {/* //update */}
+                    <button className="btn btn-primary" onClick={() => {
+                        setCode(rowData.code);
+                        setDetails(rowData.description);
+                        setError('');
+                    }}><FiEdit /></button>
+                </>
+            )
+
+        }
+    ]
 
     return (
         <>
@@ -94,12 +121,7 @@ const Positions = () => {
                                         <div className="cart-list-head">
                                             {/* Positions Tables */}
                                             <MaterialTable title="Positions"
-                                                columns={[
-                                                    { title: 'Position Code', field: 'code' },
-                                                    { title: 'Description', field: 'description' },
-                                                    { title: 'Created By', field: 'username' },
-                                                    { title: 'Created On', field: 'timestamp' }
-                                                ]}
+                                                columns={columns}
                                                 data={positions}
                                                 options={{
                                                     actionsColumnIndex: -1,

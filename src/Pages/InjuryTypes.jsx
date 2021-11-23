@@ -6,6 +6,8 @@ import MaterialTable from 'material-table';
 import Breadcrumb from '../Components/Breadcrumb';
 import { db } from '../firebase';
 import Login from './Login';
+import { RiChatDeleteLine } from 'react-icons/ri';
+import { FiEdit } from 'react-icons/fi';
 
 const InjuryTypes = () => {
     const [code, setCode] = React.useState('');
@@ -48,6 +50,38 @@ const InjuryTypes = () => {
         })
     }, [])
 
+    const columns = [
+        { title: 'Position Code', field: 'code' },
+        { title: 'Description', field: 'description' },
+        { title: 'Created By', field: 'username' },
+        { title: 'Created On', field: 'timestamp' },
+        {
+            title: 'Action', field: 'action', render: rowData => (
+                // delete button
+                <div>
+                    <span onClick={() => {
+                        if (window.confirm('Are you sure you wish to delete this injury type?')) {
+                            db.collection('injury-type').doc(rowData.id).delete();
+                        }
+                    }}
+                        className="btn btn-danger">
+                        <RiChatDeleteLine />
+                    </span>
+                    {/* //update */}
+                    <button
+                        onClick={() => {
+                            setCode(rowData.code);
+                            setDetails(rowData.description);
+                            setError('');
+                        }}
+                        className="btn btn-primary"
+                    >
+                        <FiEdit />
+                    </button>
+                </div>
+            )
+        }
+    ]
     return (
         <>
             {
@@ -94,12 +128,7 @@ const InjuryTypes = () => {
                                         <div className="cart-list-head">
                                             {/* Positions Tables */}
                                             <MaterialTable title="Injury Types"
-                                                columns={[
-                                                    { title: 'Position Code', field: 'code' },
-                                                    { title: 'Description', field: 'description' },
-                                                    { title: 'Created By', field: 'username' },
-                                                    { title: 'Created On', field: 'timestamp' }
-                                                ]}
+                                                columns={columns}
                                                 data={injuryType}
                                                 options={{
                                                     actionsColumnIndex: -1,

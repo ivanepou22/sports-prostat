@@ -168,7 +168,7 @@ const Leagues = () => {
                                                     {
                                                         title: 'Delete/Edit', field: 'action', render: rowData => (
                                                             <div>
-                                                                <button className="btn btn-primary" onClick={() => {
+                                                                <button className="btn btn-danger" onClick={() => {
                                                                     deleteLeague(rowData.id)
                                                                 }}><RiChatDeleteLine /></button>
                                                                 <button className="btn btn-primary" onClick={() => {
