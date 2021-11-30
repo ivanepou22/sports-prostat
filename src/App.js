@@ -1,6 +1,6 @@
 import Header from './Components/Header';
 import Dashboard from './Pages/Dashboard';
-import {BrowserRouter as Router , Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import { useStateValue } from './Context/StateProvider';
@@ -16,15 +16,16 @@ import Teams from './Pages/Teams';
 import Leagues from './Pages/Leagues';
 import LeagueSeasons from './Pages/LeagueSeasons';
 import Stadiums from './Pages/Stadiums';
+import Matches from './Pages/Matches';
 
 function App() {
-  const [{user}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   console.log(user);
   //piece of code which runs based on a given condition
   //useEfect hook
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if(authUser) {
+      if (authUser) {
         //user is logged in
         dispatch({
           type: 'SET_USER',
@@ -98,6 +99,10 @@ function App() {
           <Route exact path="/stadiums">
             <Header />
             <Stadiums />
+          </Route>
+          <Route exact path="/matches">
+            <Header />
+            <Matches />
           </Route>
         </Switch>
       </Router>

@@ -19,19 +19,23 @@ const Teams = () => {
     const [coach, setCoach] = useState('');
     const [owner, setOwner] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // select teams from the firebase database
     useEffect(() => {
+        setLoading(true);
         db.collection('teams').onSnapshot(snapshot => {
-            setTeams(snapshot.docs.map((doc) => ({
+            setTeams(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
                 username: doc.data().username,
                 name: doc.data().name,
                 location: doc.data().location,
                 owner: doc.data().owner,
                 coach: doc.data().coach,
-            })))
+            })));
+            setLoading(false);
         })
     }, [])
 
@@ -80,6 +84,48 @@ const Teams = () => {
             })
         }
     }
+
+    //create options array
+    const options = {
+        actionsColumnIndex: -1,
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        headerStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
 
     return (
         <>
@@ -143,40 +189,40 @@ const Teams = () => {
                                 <div className="shopping-cart section">
                                     <div className="container">
                                         <div className="cart-list-head">
-                                            {/* Positions Tables */}
-                                            <MaterialTable title="Teams"
-                                                columns={[
-                                                    { title: 'Name', field: 'name' },
-                                                    { title: 'Location', field: 'location' },
-                                                    { title: 'Coach', field: 'coach' },
-                                                    { title: 'Owner', field: 'owner' },
-                                                    { title: 'Created By', field: 'username' },
-                                                    { title: 'Created On', field: 'timestamp' },
-                                                    {
-                                                        title: 'Action', field: 'action', render: rowData => (
-                                                            <div>
-                                                                <button className="btn btn-danger" onClick={() => {
-                                                                    handleDelete(rowData.id)
-                                                                }}><RiChatDeleteLine /></button>
-                                                                <Link to={`/edit-team/${rowData.id}`} className="btn btn-primary"><FiEdit /></Link>
-                                                            </div>
+                                            {/* Teams Tables */}
+                                            {
+                                                loading ? (
+                                                    <div className="alert alert-info">
+                                                        <span>Loading...</span>
+                                                    </div>
+                                                ) : (
+                                                    <MaterialTable title="Teams"
+                                                        columns={[
+                                                            { title: '#', field: 'index' },
+                                                            { title: 'Name', field: 'name' },
+                                                            { title: 'Location', field: 'location' },
+                                                            { title: 'Coach', field: 'coach' },
+                                                            { title: 'Owner', field: 'owner' },
+                                                            { title: 'Created By', field: 'username' },
+                                                            { title: 'Created On', field: 'timestamp' },
+                                                            {
+                                                                title: 'Action', field: 'action', render: rowData => (
+                                                                    <div>
+                                                                        <button className="btn btn-danger" onClick={() => {
+                                                                            handleDelete(rowData.id)
+                                                                        }}><RiChatDeleteLine /></button>
+                                                                        <Link to={`/edit-team/${rowData.id}`} className="btn btn-primary"><FiEdit /></Link>
+                                                                    </div>
 
-                                                        )
-                                                    }
-                                                ]}
+                                                                )
+                                                            }
+                                                        ]}
 
-                                                data={teams}
-                                                options={{
-                                                    actionsColumnIndex: -1,
-                                                    pageSize: 5,
-                                                    padding: "dense",
-                                                    pageSizeOptions: [5, 10, 20, 30],
-                                                    headerStyle: {
-                                                        backgroundColor: '#01579b',
-                                                        color: '#FFF'
-                                                    }
-                                                }}
-                                            />
+                                                        data={teams}
+                                                        options={options}
+                                                    />
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>

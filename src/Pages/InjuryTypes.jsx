@@ -14,6 +14,7 @@ const InjuryTypes = () => {
     const [{ user }] = useStateValue();
     const [details, setDetails] = React.useState('');
     const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -39,24 +40,28 @@ const InjuryTypes = () => {
     // select injury Types from firebase
     const [injuryType, setInjuryType] = React.useState([]);
     React.useEffect(() => {
+        setLoading(true);
         db.collection('injury-type').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-            setInjuryType(snapshot.docs.map(doc => ({
+            setInjuryType(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 code: doc.data().code,
                 description: doc.data().description,
                 username: doc.data().username,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString()
-            })))
+            })));
+            setLoading(false);
         })
     }, [])
 
     const columns = [
-        { title: 'Position Code', field: 'code' },
+        { title: '#', field: 'index', editable: 'never' },
+        { title: 'Position_Code', field: 'code' },
         { title: 'Description', field: 'description' },
-        { title: 'Created By', field: 'username' },
-        { title: 'Created On', field: 'timestamp' },
+        { title: 'Created_By', field: 'username' },
+        { title: 'Created_On', field: 'timestamp' },
         {
-            title: 'Action', field: 'action', render: rowData => (
+            title: 'Action(Delete/Edit)', field: 'action', render: rowData => (
                 // delete button
                 <div>
                     <span onClick={() => {
@@ -82,6 +87,49 @@ const InjuryTypes = () => {
             )
         }
     ]
+
+    //create options array
+    const options = {
+        actionsColumnIndex: -1,
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        headerStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    }
+
     return (
         <>
             {
@@ -126,21 +174,21 @@ const InjuryTypes = () => {
                                 <div className="shopping-cart section">
                                     <div className="container">
                                         <div className="cart-list-head">
-                                            {/* Positions Tables */}
-                                            <MaterialTable title="Injury Types"
-                                                columns={columns}
-                                                data={injuryType}
-                                                options={{
-                                                    actionsColumnIndex: -1,
-                                                    pageSize: 5,
-                                                    padding: "dense",
-                                                    pageSizeOptions: [5, 10, 20, 30],
-                                                    headerStyle: {
-                                                        backgroundColor: '#01579b',
-                                                        color: '#FFF'
-                                                    }
-                                                }}
-                                            />
+                                            {/* Injury Types Tables */}
+                                            {
+                                                loading ? (
+                                                    <div className="alert alert-info">
+                                                        Loading...
+                                                    </div>
+                                                ) : (
+                                                    <MaterialTable title="Injury Types"
+                                                        columns={columns}
+                                                        data={injuryType}
+                                                        options={options}
+                                                    />)
+
+                                            }
+
                                         </div>
                                     </div>
                                 </div>

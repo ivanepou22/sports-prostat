@@ -25,8 +25,9 @@ const Stadiums = () => {
         setLoading(true);
         //get stadiums from firebase
         db.collection('stadiums').onSnapshot(snapshot => {
-            setStadiums(snapshot.docs.map(doc => ({
+            setStadiums(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 name: doc.data().name,
                 location: doc.data().location,
                 username: doc.data().username,
@@ -75,6 +76,7 @@ const Stadiums = () => {
 
     //columns for material table
     const columns = [
+        { title: '#', field: 'index', type: 'numeric' },
         { title: 'Name', field: 'name' },
         { title: 'Location', field: 'location' },
         { title: 'Username', field: 'username' },
@@ -88,6 +90,48 @@ const Stadiums = () => {
             )
         }
     ];
+
+    //create options array
+    const options = {
+        actionsColumnIndex: -1,
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        headerStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
 
     return (
         <>
@@ -135,25 +179,14 @@ const Stadiums = () => {
 
                                             {
                                                 loading ? (
-                                                    <div className="error-container">
-                                                        <div className="spinner-border text-primary" role="status">
-                                                            <span className="sr-only">Loading...</span>
-                                                        </div>
+                                                    <div className="alert alert-info">
+                                                        <span>Load...</span>
                                                     </div>
                                                 ) : (
                                                     <MaterialTable title="Stadiums"
                                                         columns={columns}
                                                         data={stadiums}
-                                                        options={{
-                                                            actionsColumnIndex: -1,
-                                                            pageSize: 5,
-                                                            padding: "dense",
-                                                            pageSizeOptions: [5, 10, 20, 30],
-                                                            headerStyle: {
-                                                                backgroundColor: '#01579b',
-                                                                color: '#FFF'
-                                                            }
-                                                        }}
+                                                        options={options}
                                                     />
                                                 )
                                             }

@@ -19,19 +19,23 @@ const Leagues = () => {
     const [success, setSuccess] = useState('')
     const [actionSuccess, setActionSuccess] = useState('')
     const [actionError, setActionError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     // get leagues from firebase database
     useEffect(() => {
+        setLoading(true)
         db.collection('leagues').onSnapshot(snapshot => {
-            setLeagues(snapshot.docs.map((doc) => ({
+            setLeagues(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
                 username: doc.data().username,
                 name: doc.data().name,
                 description: doc.data().description,
                 startDate: doc.data().startDate,
                 endDate: doc.data().endDate,
-            })))
+            })));
+            setLoading(false)
         })
     }, [])
 
@@ -79,6 +83,48 @@ const Leagues = () => {
             }, 3000)
         }
     }
+
+    //create options array
+    const options = {
+        actionsColumnIndex: -1,
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        headerStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
 
     return (
         <>
@@ -156,44 +202,44 @@ const Leagues = () => {
                                                     </div>
                                                 ) : ('')
                                             }
-                                            {/* Positions Tables */}
-                                            <MaterialTable title="Leagues"
-                                                columns={[
-                                                    { title: 'League___Name', field: 'name' },
-                                                    { title: 'League_Description', field: 'description' },
-                                                    { title: 'StartDate', field: 'startDate' },
-                                                    { title: 'EndDate', field: 'endDate' },
-                                                    { title: 'Created_By', field: 'username' },
-                                                    { title: 'Created_On', field: 'timestamp' },
-                                                    {
-                                                        title: 'Delete/Edit', field: 'action', render: rowData => (
-                                                            <div>
-                                                                <button className="btn btn-danger" onClick={() => {
-                                                                    deleteLeague(rowData.id)
-                                                                }}><RiChatDeleteLine /></button>
-                                                                <button className="btn btn-primary" onClick={() => {
-                                                                    if (window.confirm('Are you sure you want to edit this League ?')) {
-                                                                        window.location.href = `/league/${rowData.id}`
-                                                                    }
-                                                                }}><FiEdit /></button>
-                                                            </div>
+                                            {/* Leagues Tables */}
+                                            {
+                                                loading ? (
+                                                    <div className="alert alert-info">
+                                                        <span>Loading...</span>
+                                                    </div>
+                                                ) : (
+                                                    <MaterialTable title="Leagues"
+                                                        columns={[
+                                                            { title: '#', field: 'index' },
+                                                            { title: 'LeagueName', field: 'name' },
+                                                            { title: 'LeagueDescription', field: 'description' },
+                                                            { title: 'StartDate', field: 'startDate' },
+                                                            { title: 'EndDate', field: 'endDate' },
+                                                            { title: 'CreatedBy', field: 'username' },
+                                                            { title: 'CreatedOn', field: 'timestamp' },
+                                                            {
+                                                                title: 'Delete/Edit', field: 'action', render: rowData => (
+                                                                    <div>
+                                                                        <button className="btn btn-danger" onClick={() => {
+                                                                            deleteLeague(rowData.id)
+                                                                        }}><RiChatDeleteLine /></button>
+                                                                        <button className="btn btn-primary" onClick={() => {
+                                                                            if (window.confirm('Are you sure you want to edit this League ?')) {
+                                                                                window.location.href = `/league/${rowData.id}`
+                                                                            }
+                                                                        }}><FiEdit /></button>
+                                                                    </div>
 
-                                                        )
-                                                    }
-                                                ]}
+                                                                )
+                                                            }
+                                                        ]}
 
-                                                data={leagues}
-                                                options={{
-                                                    actionsColumnIndex: -1,
-                                                    pageSize: 5,
-                                                    padding: "dense",
-                                                    pageSizeOptions: [5, 10, 20, 30],
-                                                    headerStyle: {
-                                                        backgroundColor: '#01579b',
-                                                        color: '#FFF'
-                                                    }
-                                                }}
-                                            />
+                                                        data={leagues}
+                                                        options={options}
+                                                    />
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>

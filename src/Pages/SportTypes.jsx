@@ -11,21 +11,26 @@ import './SportTypes.css'
 const SportTypes = () => {
     const [sportTypes, setSportTypes] = useState([]);
     const [{ user }] = useStateValue();
+    const [isLoading, setIsLoading] = useState(false);
 
     // select sport type from firebase
     useEffect(() => {
+        setIsLoading(true);
         db.collection('sports-type').onSnapshot(snapshot => {
-            setSportTypes(snapshot.docs.map(doc => ({
+            setSportTypes(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 code: doc.data().code,
                 description: doc.data().description,
                 username: doc.data().username,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString()
-            })))
+            })));
+            setIsLoading(false);
         })
     }, [])
 
     const columns = [
+        { title: '#', field: 'index' },
         { title: 'Position Code', field: 'code' },
         { title: 'Description', field: 'description' },
         { title: 'Created By', field: 'username' },
@@ -47,23 +52,64 @@ const SportTypes = () => {
     ]
 
 
+    //create options array
     const options = {
         actionsColumnIndex: -1,
-        pageSize: 5,
-        padding: "dense",
-        pageSizeOptions: [5, 10, 20, 30],
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
         headerStyle: {
-            backgroundColor: '#01579b',
-            color: '#FFF'
-        }
-    }
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
+
     return (
         <>
             {
                 user ? (
                     <>
                         <Breadcrumb page={'Sports Type'} pagename={'Sports Type'} />
-                        <TableData data={sportTypes} columns={columns} title={'Sport Type'} options={options} pageName={'Add Sport Type'} linkPath={'createsporttype'} />
+                        {
+                            isLoading ? (
+                                <div className="alert alert-info">
+                                    Loading...
+                                </div>
+                            ) : (
+                                <TableData data={sportTypes} columns={columns} title={'Sport Type'} options={options} pageName={'Add Sport Type'} linkPath={'createsporttype'} />
+                            )
+                        }
+
                     </>
                 ) : (
                     <Login />

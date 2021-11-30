@@ -18,22 +18,25 @@ const LeagueSeasons = () => {
     const [actionError, setActionError] = React.useState('');
     const [startDate, setStartDate] = React.useState('');
     const [endDate, setEndDate] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
     // Get all seasons from the firebase
     useEffect(() => {
+        setLoading(true);
         db.collection('seasons').onSnapshot(snapshot => {
-            setSeasons(snapshot.docs.map(doc => ({
+            setSeasons(snapshot.docs.map((doc, index) => ({
                 id: doc.id,
+                index: index + 1,
                 username: doc.data().username,
                 name: doc.data().name,
                 startDate: doc.data().startDate,
                 endDate: doc.data().endDate,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString()
-            })))
+            })));
+            setLoading(false);
         })
     }, [])
 
-    // console.log(seasons);
 
     // Add a new season
     const addSeason = (e) => {
@@ -129,39 +132,71 @@ const LeagueSeasons = () => {
         }
     }
 
-    const columns =
-        [
-            { title: 'Name', field: 'name' },
-            { title: 'StartDate', field: 'startDate' },
-            { title: 'EndDate', field: 'endDate' },
-            { title: 'Created_By', field: 'username' },
-            { title: 'Created_On', field: 'timestamp' },
-            {
-                title: 'Action', field: 'action', render: rowData => (
-                    <div>
-                        <button className="btn btn-danger" onClick={() => {
-                            deleteSeason(rowData.id)
-                        }}><RiChatDeleteLine /></button>
-                        <button className="btn btn-primary" onClick={() => {
-                            if (window.confirm('Are you sure you want to edit this League ?')) {
-                                window.location.href = `/season/${rowData.id}`
-                            }
-                        }}><FiEdit /></button>
-                    </div>
+    const columns = [
+        { title: '#', field: 'index' },
+        { title: 'Name', field: 'name' },
+        { title: 'StartDate', field: 'startDate' },
+        { title: 'EndDate', field: 'endDate' },
+        { title: 'Created_By', field: 'username' },
+        { title: 'Created_On', field: 'timestamp' },
+        {
+            title: 'Action', field: 'action', render: rowData => (
+                <div>
+                    <button className="btn btn-danger" onClick={() => {
+                        deleteSeason(rowData.id)
+                    }}><RiChatDeleteLine /></button>
+                    <button className="btn btn-primary" onClick={() => {
+                        if (window.confirm('Are you sure you want to edit this League ?')) {
+                            window.location.href = `/season/${rowData.id}`
+                        }
+                    }}><FiEdit /></button>
+                </div>
 
-                )
-            }
-        ]
+            )
+        }
+    ]
+
+    //create options array
     const options = {
         actionsColumnIndex: -1,
-        pageSize: 5,
-        padding: "dense",
-        pageSizeOptions: [5, 10, 20, 30],
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
         headerStyle: {
-            backgroundColor: '#01579b',
-            color: '#FFF'
-        }
-    }
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
 
     return (
         <>
@@ -233,8 +268,16 @@ const LeagueSeasons = () => {
                                                     </div>
                                                 ) : ('')
                                             }
-                                            {/* Positions Tables */}
-                                            <TableData title={'Seasons'} columns={columns} data={seasons} options={options} />
+                                            {/* Seasons Tables */}
+                                            {
+                                                loading ? (
+                                                    <div className="aleart alert-info">
+                                                        <span>Loading...</span>
+                                                    </div>
+                                                ) : (
+                                                    <TableData title={'Seasons'} columns={columns} data={seasons} options={options} />
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>

@@ -14,8 +14,8 @@ const Players = () => {
     const [sports, setSports] = useState([]);
     const [positions, setPositions] = useState([]);
     const [teams, setTeams] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     //convert string to a date
     const convertDate = (date) => {
@@ -132,7 +132,7 @@ const Players = () => {
                 username: doc.data().username,
                 jersey: doc.data().jersey,
                 timestamp: doc.data().timestamp?.toDate().toLocaleDateString(),
-            })))
+            })));
             setLoading(false);
         }, error => {
             setError(error.message);
@@ -140,17 +140,47 @@ const Players = () => {
         });
     }, [positions, teams, sports])
 
-    //Material table options
+    //create options array
     const options = {
         actionsColumnIndex: -1,
-        padding: "dense",
-        pageSize: 5,
-        pageSizeOptions: [5, 10, 20, 30],
+        exportButton: false,
+        exportAllData: false,
+        padding: 'dense',
+        pageSize: 10,
+        pageSizeOptions: [10, 20, 50, 100],
+        search: true,
+        searchFieldAlignment: 'right',
+        searchFieldStyle: {
+            fontSize: '14px',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
         headerStyle: {
-            backgroundColor: '#01579b',
-            color: '#FFF'
-        }
-    }
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        rowStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+            width: '100%'
+        },
+        cellStyle: {
+            fontSize: '14px',
+            backgroundColor: '#f1f1f1',
+            padding: '5px',
+            borderRadius: '5px',
+            border: '1px solid #ced4da',
+        },
+    };
 
     return (
         <>
@@ -166,15 +196,13 @@ const Players = () => {
                             ) : ('')
                         }
                         {
-                            loading ? (
-                                <div className="d-flex justify-content-center error-container">
-                                    <div className="spinner-border text-primary" role="status">
-                                        <span className="sr-only">Loading...</span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <TableData data={players} columns={columns} title={'Players'} options={options} pageName={'Add Player'} linkPath={'createplayer'} />
-                            )
+                            // loading ? (
+                            //     <div className="alert alert-info">
+                            //         Loading...
+                            //     </div>
+                            // ) : (
+                            <TableData data={players} columns={columns} title={'Players'} options={options} pageName={'Add Player'} linkPath={'createplayer'} />
+                            // )
                         }
                     </>
                 ) : (
